@@ -9,4 +9,42 @@ name: Hypergen_dashboard
 runtime_options: {version: 2, client_version: '3', server_version: python3-full, server_spec: null}
 metadata: {logo_img: 'asset:HyperGen-Logo-Icon-POS.png'}
 startup_form: Form1
+db_schema:
+  efficiency:
+    client: none
+    server: full
+    columns:
+    - name: Generator size (kW)
+      admin_ui: {order: 0, width: 200}
+      type: number
+    - name: 45% (l/hr)
+      admin_ui: {order: 1, width: 200}
+      type: number
+    - name: 35% (l/hr)
+      admin_ui: {order: 2, width: 200}
+      type: number
+    - name: 50% (l/hr)
+      admin_ui: {order: 3, width: 200}
+      type: number
+    title: Table 2
+  costs:
+    client: none
+    server: full
+    columns:
+    - name: piston (£/kW)
+      admin_ui: {order: 0, width: 200}
+      type: number
+    - name: MGT
+      admin_ui: {order: 1, width: 200}
+      type: number
+    - name: HMGT
+      admin_ui: {order: 2, width: 200}
+      type: number
+    - name: Solar
+      admin_ui: {order: 3, width: 200}
+      type: number
+    - name: wind
+      admin_ui: {order: 4, width: 200}
+      type: number
+    title: Table 1
 renamed: true
