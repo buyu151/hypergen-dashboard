@@ -13,27 +13,32 @@ class Form1(Form1Template):
 
         # Any code you write here will run before the form opens.
 
-        #Variables drop down menues:
+        #-----------------------------------------------------------------------------------------------------------
+        #Variables drop down menus:
         avg_power = [20, 30, 40, 60, 75, 100, 125, 135, 150, 175, 200]
         avg_power_str = [str(item) for item in avg_power]
         self.dd_avg_power.items = avg_power_str
+        self.dd_avg_power.selected_value = '30' #Default value
         # print(avg_power_str)
         # print(f'Average power\n{avg_power}\n')
         
         run_time = [ item for item in range(1, 24+1) ]
         run_time_str = [str(item) for item in run_time]
         self.dd_run_time.items = run_time_str
+        self.dd_run_time.selected_value = '8' #Default value
         # print(f'Run time\n{run_time}\n')
         
         days_year = [ item for item in range(1, 365+1)]
         days_year_str = [str(item) for item in days_year]
         self.dd_days_year.items = days_year_str
+        self.dd_days_year.selected_value = '250' #Default value
         # print(f'Days of the year operating\n{days_year}\n')
         
         
-        solar_irrad = [1.5, 2.6, 3, 4, 5.5, 6]
+        solar_irrad = [1.5, 2.6, 3, 4, 5.45, 6]
         solar_irrad_str = [str(item) for item in solar_irrad]
         self.dd_solar_irrad.items = solar_irrad_str
+        self.dd_solar_irrad.selected_value = '5.45' #Default value
         # Solar radiation can be categorized into four classes: levels less than 2.6 kWh/m2 
         # are classified as low solar radiation while solar irradiance between 2.6-3 kWh/m2 
         # is moderate solar radiation; irradiance of between 3-4 kWh/m2 is high solar radiation
@@ -43,26 +48,32 @@ class Form1(Form1Template):
         wind_speed = [item for item in range(2, 15+1)]
         wind_speed_str = [str(item) for item in wind_speed]
         self.dd_wind_speed.items = wind_speed_str
+        self.dd_wind_speed.selected_value = '5' #Default value
         # print(f'Average wind speed\n{wind_speed}\n')
         
-        fuel_cost = [1 + (item/10) for item in range(1, 11) ]
+        fuel_cost = [1 + (item/10) for item in range(0, 11) ]
         fuel_cost_str = [str(item) for item in fuel_cost]
         self.dd_fuel_cost.items = fuel_cost_str
+        self.dd_fuel_cost.selected_value = '1.0' #Default value
         # print(f'Average fuel cost\n{fuel_cost}\n')
         
         elect_grid_cost = [round((3 + (item/10))/10, 2) for item in range(4, 70)]
         elect_grid_cost_str = [str(item) for item in elect_grid_cost]
         self.dd_elect_grid_cost.items = elect_grid_cost_str
+        self.dd_elect_grid_cost.selected_value = '0.34' #Default value
         # print(f'Electric grid cost\n{elect_grid_cost}\n')
 
         energy_inflation = [ item for item in range(10, 101, 10)]
         energy_inflation_str = [str(item) for item in energy_inflation]
         self.dd_energy_inflation.items = energy_inflation_str
+        self.dd_energy_inflation.selected_value = '30' #Default value
         # print(f'Energy inflation\n{energy_inflation}\n')
         
 
-    def run_button_click(self, **event_args):
+    def run_button_click(self, **event_args):      
+        
         """This method is called when the button is clicked"""
+        #-----------------------------------------------------------------------------------------------------------
         #Selected values:
         
         avg_power_selected = anvil.server.call('str_to_num', self.dd_avg_power.selected_value)
@@ -73,29 +84,27 @@ class Form1(Form1Template):
         fuel_cost_selected = anvil.server.call('str_to_num',self.dd_fuel_cost.selected_value)
         elect_grid_cost_selected = anvil.server.call('str_to_num',self.dd_elect_grid_cost.selected_value)
         energy_inflation_selected = anvil.server.call('str_to_num',self.dd_energy_inflation.selected_value)
-
+        
+        #-----------------------------------------------------------------------------------------------------------
         #Outputs
-
+        
         total_power_comsumption = avg_power_selected*run_time_selected*days_year_selected
         print(f'Total power comsumption: {total_power_comsumption} kWh')
 
+        #-----------------------------------------------------------------------------------------------------------
+        #Generate capital costs dictionary for all power generators:
+        capital_costs = {}
+        generators = ['piston', 'MGT', 'HMGT', 'solar', 'wind']
+        cost_factor = {'piston': 0.15, 'MGT': 0.0045, 'HMGT': 0.0045, 'solar':3000, 'wind': 0.0082}
         
-        
-        
-        
-        
-       
-        
-       
+        column = app_tables.generator_cost.list_columns()[1]['name']
 
-        
-        pass
-
-
-    
-        
-  
-
-
-
-
+        for item in generators:
+            #Object for row 
+            generator_cost_obj = app_tables.generator_cost.get(generator=item)
+            capital_costs[item] = {'initial capital_cost': generator_cost_obj[column]*avg_power_selected}
+            if item == 'solar':
+                capital_costs[item]['Maintenance costs'] = cost_factor['solar']
+            else:
+                capital_costs[item]['yearly maintenance costs'] = total_power_comsumption*cost_factor[item]     
+        print(capital_costs)

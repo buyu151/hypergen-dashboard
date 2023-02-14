@@ -36,6 +36,8 @@ components:
       name: dd_avg_power
       layout_properties: {grid_position: 'WKQIZB,CUBPXL'}
       event_bindings: {}
+      data_bindings:
+      - {property: placeholder, code: 'self.item[''30'']'}
     - type: Label
       properties: {role: null, align: center, tooltip: '', border: '', foreground: '',
         visible: true, text: 'Run time [hrs]', font_size: null, font: '', spacing_above: small,
