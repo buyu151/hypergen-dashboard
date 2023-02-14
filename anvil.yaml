@@ -25,16 +25,16 @@ db_schema:
     client: search
     server: full
     columns:
-    - name: Generator size (kW)
+    - name: generator_size
       admin_ui: {order: 0, width: 200}
       type: number
-    - name: 45% (l/hr)
+    - name: '45'
       admin_ui: {order: 1, width: 200}
       type: number
-    - name: 35% (l/hr)
+    - name: '35'
       admin_ui: {order: 2, width: 200}
       type: number
-    - name: 50% (l/hr)
+    - name: '50'
       admin_ui: {order: 3, width: 200}
       type: number
     title: Table 2

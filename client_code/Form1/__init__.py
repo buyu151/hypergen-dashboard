@@ -96,15 +96,33 @@ class Form1(Form1Template):
         capital_costs = {}
         generators = ['piston', 'MGT', 'HMGT', 'solar', 'wind']
         cost_factor = {'piston': 0.15, 'MGT': 0.0045, 'HMGT': 0.0045, 'solar':3000, 'wind': 0.0082}
-        
-        column = app_tables.generator_cost.list_columns()[1]['name']
+
+        #Get column names from app tables
+        column_generator_costs = app_tables.generator_cost.list_columns()[1]['name'] #column 'pounds_per_kwh' in table 3
+        column_generator_efficiency = [app_tables.generator_efficiency.list_columns()[i]['name'] for i in range(1, 4)] #efficiency columns 45, 35 and 50 in table 2
+        # print(column_generator_efficiency)
+
+        generator_efficiency_obj = app_tables.generator_efficiency.get(generator_size=avg_power_selected)
+        # print(f'gen eff{generator_efficiency_obj}')
 
         for item in generators:
-            #Object for row 
+            #Object for table row 
             generator_cost_obj = app_tables.generator_cost.get(generator=item)
-            capital_costs[item] = {'initial capital_cost': generator_cost_obj[column]*avg_power_selected}
+            capital_costs[item] = {'Initial capital cost': generator_cost_obj[column_generator_costs]*avg_power_selected}
             if item == 'solar':
-                capital_costs[item]['Maintenance costs'] = cost_factor['solar']
+                capital_costs[item]['Yearly maintenance costs'] = cost_factor['solar']
             else:
-                capital_costs[item]['yearly maintenance costs'] = total_power_comsumption*cost_factor[item]     
+                capital_costs[item]['Yearly maintenance costs'] = total_power_comsumption*cost_factor[item]
+                
+            if item not in ['solar', 'wind']: 
+                if item == 'piston':
+                    efficiency = '45'
+                elif item == 'MGT':
+                    efficiency = '35'
+                elif item == 'HMGT':
+                    efficiency = '50'      
+                fuel_data = app_tables.generator_efficiency.get(generator_size=avg_power_selected)[efficiency]
+                # print(f'fuel data: {fuel_data}')
+                capital_costs[item]['Yearly fuel costs'] = fuel_data*run_time_selected*days_year_selected*fuel_cost_selected       
         print(capital_costs)
+

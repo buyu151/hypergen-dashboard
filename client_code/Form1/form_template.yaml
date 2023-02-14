@@ -9,7 +9,9 @@ components:
   layout_properties: {slot: default}
   components:
   - type: ColumnPanel
-    properties: {col_widths: '{}'}
+    properties: {role: null, tooltip: '', border: '', foreground: '', visible: true,
+      wrap_on: mobile, col_spacing: medium, spacing_above: small, col_widths: '{}',
+      spacing_below: small, background: ''}
     name: column_panel_2
     layout_properties: {grid_position: 'MUKHFU,EXLKHZ'}
     components:
@@ -115,8 +117,8 @@ components:
     - type: Label
       properties: {role: null, align: center, tooltip: '', border: '', foreground: '',
         visible: true, text: 'Cost of fuel [£/l]', font_size: null, font: '', spacing_above: small,
-        icon_align: left, spacing_below: small, italic: false, background: '', bold: true,
-        underline: false, icon: ''}
+        icon_align: left, spacing_below: small, italic: false, background: 'theme:Primary
+          Container', bold: true, underline: false, icon: ''}
       name: label_6
       layout_properties: {grid_position: 'IJHYIJ,KMNZSY'}
     - type: DropDown
@@ -125,10 +127,10 @@ components:
       layout_properties: {grid_position: 'VRZFVP,EEGXJL'}
       event_bindings: {}
     - type: Button
-      properties: {role: outlined-button, align: center, tooltip: '', border: '',
-        enabled: true, foreground: '', visible: true, text: Run, font_size: null,
-        font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false,
-        background: '', bold: true, underline: false, icon: ''}
+      properties: {role: filled-button, align: center, tooltip: '', border: '', enabled: true,
+        foreground: '', visible: true, text: Run, font_size: null, font: '', spacing_above: small,
+        icon_align: left, spacing_below: small, italic: false, background: '', bold: true,
+        underline: false, icon: ''}
       name: run_button
       layout_properties: {grid_position: 'DJUUUN,TJXOMO'}
       event_bindings: {click: run_button_click}
