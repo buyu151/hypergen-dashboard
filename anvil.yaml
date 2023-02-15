@@ -6,7 +6,11 @@ services:
 package_name: Hypergen_dashboard
 allow_embedding: false
 name: Hypergen_dashboard
-runtime_options: {version: 2, client_version: '3', server_version: python3-full, server_spec: null}
+runtime_options:
+  version: 2
+  client_version: '3'
+  server_version: python3-full
+  server_spec: {base: python310-standard}
 metadata: {logo_img: 'asset:HyperGen-Logo-Icon-POS.png'}
 startup_form: Form1
 db_schema:
