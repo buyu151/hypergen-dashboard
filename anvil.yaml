@@ -9,8 +9,9 @@ name: Hypergen_dashboard
 runtime_options:
   version: 2
   client_version: '3'
-  server_version: python3-full
+  server_version: python3-sandbox
   server_spec: {base: python310-standard}
+  server_spec_disabled: {requirements: '', base: python310-standard}
 metadata: {logo_img: 'asset:HyperGen-Logo-Icon-POS.png'}
 startup_form: Form1
 db_schema:
@@ -42,7 +43,97 @@ db_schema:
       admin_ui: {order: 3, width: 200}
       type: number
     title: Table 2
-  comulative_costs:
+  user_inputs:
+    client: search
+    server: full
+    columns:
+    - name: avg_power_selected
+      admin_ui: {order: 0, width: 200}
+      type: number
+    - name: run_time_selected
+      admin_ui: {order: 1, width: 200}
+      type: number
+    - name: days_year_selected
+      admin_ui: {order: 2, width: 200}
+      type: number
+    - name: solar_irrad_selected
+      admin_ui: {order: 3, width: 200}
+      type: number
+    - name: wind_speed_selected
+      admin_ui: {order: 4, width: 200}
+      type: number
+    - name: fuel_cost_selected
+      admin_ui: {order: 5, width: 200}
+      type: number
+    - name: elect_grid_cost_selected
+      admin_ui: {order: 6, width: 200}
+      type: number
+    - name: energy_inflation_selected
+      admin_ui: {order: 7, width: 200}
+      type: number
+    - name: created
+      admin_ui: {order: 8, width: 200}
+      type: datetime
+    title: Table 4
+  total_power:
+    client: none
+    server: full
+    columns:
+    - name: power_comsumption
+      admin_ui: {order: 0, width: 200}
+      type: number
+    - name: created
+      admin_ui: {order: 1, width: 200}
+      type: datetime
+    title: Table 5
+  capital_costs_yearly:
+    client: none
+    server: full
+    columns:
+    - name: piston_capital
+      admin_ui: {order: 0, width: 200}
+      type: number
+    - name: piston_fuel
+      admin_ui: {order: 1, width: 200}
+      type: number
+    - name: piston_maintenance
+      admin_ui: {order: 2, width: 200}
+      type: number
+    - name: mgt_capital
+      admin_ui: {order: 3, width: 200}
+      type: number
+    - name: mgt_fuel
+      admin_ui: {order: 4, width: 200}
+      type: number
+    - name: hmgt_maintenance
+      admin_ui: {order: 5, width: 200}
+      type: number
+    - name: hmgt_capital
+      admin_ui: {order: 6, width: 200}
+      type: number
+    - name: hmgt_fuel
+      admin_ui: {order: 7, width: 200}
+      type: number
+    - name: mgt_maintenance
+      admin_ui: {order: 8, width: 200}
+      type: number
+    - name: solar_capital
+      admin_ui: {order: 9, width: 200}
+      type: number
+    - name: solar_maintenance
+      admin_ui: {order: 10, width: 200}
+      type: number
+    - name: wind_capital
+      admin_ui: {order: 11, width: 200}
+      type: number
+    - name: wind_maintenance
+      admin_ui: {order: 12, width: 200}
+      type: number
+    - name: created
+      admin_ui: {order: 13, width: 200}
+      type: datetime
+    title: Table 6
+  cumulative_costs:
     client: none
     server: full
     columns:
@@ -67,5 +158,8 @@ db_schema:
     - name: grid
       admin_ui: {order: 6, width: 200}
       type: number
+    - name: created
+      admin_ui: {order: 7, width: 200}
+      type: datetime
     title: Table 3
 renamed: true

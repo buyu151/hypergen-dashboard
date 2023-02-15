@@ -5,6 +5,8 @@ import anvil.tables.query as q
 from anvil.tables import app_tables
 import anvil.server
 import plotly.graph_objects as go
+import time
+from datetime import datetime
 
 
 
@@ -15,147 +17,258 @@ class Form1(Form1Template):
 
         # Any code you write here will run before the form opens.
 
+        
+
         #-----------------------------------------------------------------------------------------------------------
         #Variables drop down menus:
-        avg_power = [20, 30, 40, 60, 75, 100, 125, 135, 150, 175, 200]
-        avg_power_str = [str(item) for item in avg_power]
-        self.dd_avg_power.items = avg_power_str
+
+        t_begin = time.time()
+        
+        self.avg_power = ['20', '30', '40', '60', '75', '100', '125', '135', '150', '175', '200']
+        self.dd_avg_power.items = self.avg_power
         self.dd_avg_power.selected_value = '30' #Default value
-        # print(avg_power_str)
-        # print(f'Average power\n{avg_power}\n')
+        # print(f'Average power\n{self.avg_power}\n')
         
-        run_time = [ item for item in range(1, 24+1) ]
-        run_time_str = [str(item) for item in run_time]
-        self.dd_run_time.items = run_time_str
+        self.run_time = [ str(item) for item in range(1, 24+1) ]
+        self.dd_run_time.items = self.run_time
         self.dd_run_time.selected_value = '8' #Default value
-        # print(f'Run time\n{run_time}\n')
+        # print(f'Run time\n{self.run_time}\n')
         
-        days_year = [ item for item in range(1, 365+1)]
-        days_year_str = [str(item) for item in days_year]
-        self.dd_days_year.items = days_year_str
+        self.days_year = [ str(item) for item in range(1, 365+1)]
+        self.dd_days_year.items = self.days_year
         self.dd_days_year.selected_value = '250' #Default value
-        # print(f'Days of the year operating\n{days_year}\n')
+        # print(f'Days of the year operating\n{self.days_year}\n')
         
         
-        solar_irrad = [1.5, 2.6, 3, 4, 5.45, 6]
-        solar_irrad_str = [str(item) for item in solar_irrad]
-        self.dd_solar_irrad.items = solar_irrad_str
+        self.solar_irrad = ['1.5', '2.6', '3', '4', '5.45', '6']
+        self.dd_solar_irrad.items = self.solar_irrad
         self.dd_solar_irrad.selected_value = '5.45' #Default value
         # Solar radiation can be categorized into four classes: levels less than 2.6 kWh/m2 
         # are classified as low solar radiation while solar irradiance between 2.6-3 kWh/m2 
         # is moderate solar radiation; irradiance of between 3-4 kWh/m2 is high solar radiation
         # and irradiance higher than 4 kWh/m2 is very high radiation.
-        # print(f'Average solar irradiation\n{solar_irrad}\n')
+        # print(f'Average solar irradiation\n{self.solar_irrad}\n')
         
-        wind_speed = [item for item in range(2, 15+1)]
-        wind_speed_str = [str(item) for item in wind_speed]
-        self.dd_wind_speed.items = wind_speed_str
+        self.wind_speed = [str(item) for item in range(2, 15+1)]
+        self.dd_wind_speed.items = self.wind_speed
         self.dd_wind_speed.selected_value = '5' #Default value
-        # print(f'Average wind speed\n{wind_speed}\n')
+        # print(f'Average wind speed\n{self.wind_speed}\n')
         
-        fuel_cost = [1 + (item/10) for item in range(0, 11) ]
-        fuel_cost_str = [str(item) for item in fuel_cost]
-        self.dd_fuel_cost.items = fuel_cost_str
+        self.fuel_cost = [str(1 + (item/10)) for item in range(0, 11) ]
+        self.dd_fuel_cost.items = self.fuel_cost
         self.dd_fuel_cost.selected_value = '1.0' #Default value
-        # print(f'Average fuel cost\n{fuel_cost}\n')
+        # print(f'Average fuel cost\n{self.fuel_cost}\n')
         
-        elect_grid_cost = [round((3 + (item/10))/10, 2) for item in range(4, 70)]
-        elect_grid_cost_str = [str(item) for item in elect_grid_cost]
-        self.dd_elect_grid_cost.items = elect_grid_cost_str
+        self.elect_grid_cost = [str(round((3 + (item/10))/10, 2)) for item in range(4, 70)]
+        self.dd_elect_grid_cost.items = self.elect_grid_cost
         self.dd_elect_grid_cost.selected_value = '0.34' #Default value
-        # print(f'Electric grid cost\n{elect_grid_cost}\n')
+        # print(f'Electric grid cost\n{self.elect_grid_cost}\n')
 
-        energy_inflation = [ item for item in range(10, 101, 10)]
-        energy_inflation_str = [str(item) for item in energy_inflation]
-        self.dd_energy_inflation.items = energy_inflation_str
+        self.energy_inflation = [ str(item) for item in range(10, 101, 10)]
+        self.dd_energy_inflation.items = self.energy_inflation
         self.dd_energy_inflation.selected_value = '30' #Default value
-        # print(f'Energy inflation\n{energy_inflation}\n')
+        # print(f'Energy inflation\n{self.energy_inflation}\n')
+
+        t_end = time.time()
+        print(f'Build drop down list values in {t_end-t_begin} seconds')
         
 
     def run_button_click(self, **event_args):      
         
         """This method is called when the button is clicked"""
         #-----------------------------------------------------------------------------------------------------------
-        #Selected values:
+        #Selected values copnverted to numbers:
+
+        t_begin_total = time.time()
+
+        t_begin = time.time()
+
+        #This way is too slow:
+        # self.avg_power_selected = anvil.server.call('str_to_num', self.dd_avg_power.selected_value)
+        # self.run_time_selected = anvil.server.call('str_to_num',self.dd_run_time.selected_value)
+        # self.days_year_selected = anvil.server.call('str_to_num',self.dd_days_year.selected_value)
+        # self.solar_irrad_selected = anvil.server.call('str_to_num',self.dd_solar_irrad.selected_value)
+        # self.wind_speed_selected = anvil.server.call('str_to_num',self.dd_wind_speed.selected_value)
+        # self.fuel_cost_selected = anvil.server.call('str_to_num',self.dd_fuel_cost.selected_value)
+        # self.elect_grid_cost_selected = anvil.server.call('str_to_num',self.dd_elect_grid_cost.selected_value)
+        # self.energy_inflation_selected = anvil.server.call('str_to_num',self.dd_energy_inflation.selected_value)
         
-        avg_power_selected = anvil.server.call('str_to_num', self.dd_avg_power.selected_value)
-        run_time_selected = anvil.server.call('str_to_num',self.dd_run_time.selected_value)
-        days_year_selected = anvil.server.call('str_to_num',self.dd_days_year.selected_value)
-        solar_irrad_selected = anvil.server.call('str_to_num',self.dd_solar_irrad.selected_value)
-        wind_speed_selected = anvil.server.call('str_to_num',self.dd_wind_speed.selected_value)
-        fuel_cost_selected = anvil.server.call('str_to_num',self.dd_fuel_cost.selected_value)
-        elect_grid_cost_selected = anvil.server.call('str_to_num',self.dd_elect_grid_cost.selected_value)
-        energy_inflation_selected = anvil.server.call('str_to_num',self.dd_energy_inflation.selected_value)
+        self.avg_power_selected = float(self.dd_avg_power.selected_value)
+        self.run_time_selected = float(self.dd_run_time.selected_value)
+        self.days_year_selected = float(self.dd_days_year.selected_value)
+        self.solar_irrad_selected = float(self.dd_solar_irrad.selected_value)
+        self.wind_speed_selected = float(self.dd_wind_speed.selected_value)
+        self.fuel_cost_selected = float(self.dd_fuel_cost.selected_value)
+        self.elect_grid_cost_selected = float(self.dd_elect_grid_cost.selected_value)
+        self.energy_inflation_selected = float(self.dd_energy_inflation.selected_value)
+
+        t_end = time.time()
+        print(f'Done converting imputs to numbers in {t_end-t_begin} seconds')
+
+        #-----------------------------------------------------------------------------------------------------------
+        #Pass user options to the server 
+
+        t_begin = time.time()
+
+        anvil.server.call('add_inputs',
+                          self.avg_power_selected,
+                          self.run_time_selected,
+                          self.days_year_selected,
+                          self.solar_irrad_selected,
+                          self.wind_speed_selected,
+                          self.fuel_cost_selected,
+                          self.elect_grid_cost_selected,
+                          self.energy_inflation_selected
+                         )
+
+        t_end = time.time()
+        
+        print(f'Done importing imputs to server in {t_end-t_begin} seconds')
         
         #-----------------------------------------------------------------------------------------------------------
         #Outputs
+
+        t_begin = time.time()
+        # self.total_power_comsumption = anvil.server.call('clac_total_power', self.avg_power_selected, self.run_time_selected, self.days_year_selected)
+        self.total_power_comsumption = self.avg_power_selected*self.run_time_selected*self.days_year_selected
+        t_end = time.time()
+        print(f'Total power comsumption: {self.total_power_comsumption} kWh calculated in {t_end-t_begin} seconds')
+
         
-        total_power_comsumption = avg_power_selected*run_time_selected*days_year_selected
-        # print(f'Total power comsumption: {total_power_comsumption} kWh')
+        t_begin = time.time()
+        anvil.server.call('add_total_power', self.total_power_comsumption)
+        t_end = time.time()
+        print(f'Done importing total power comsumption to server in {t_end-t_begin} seconds')
+        
 
         #-----------------------------------------------------------------------------------------------------------
         #Generate capital costs dictionary for all power generators:
-        capital_costs = {}
-        generators = ['piston', 'MGT', 'HMGT', 'solar', 'wind']
-        cost_factor = {'piston': 0.15, 'MGT': 0.0045, 'HMGT': 0.0045, 'solar':3000, 'wind': 0.0082}
+        t_begin = time.time()
+        self.capital_costs = {}
+        self.generators = ['piston', 'MGT', 'HMGT', 'solar', 'wind']
+        self.cost_factor = {'piston': 0.15, 'MGT': 0.0045, 'HMGT': 0.0045, 'solar':3000, 'wind': 0.0082}
 
         #Get column names from app tables
-        column_generator_costs = app_tables.generator_cost.list_columns()[1]['name'] #column 'pounds_per_kwh' in table 3
-        column_generator_efficiency = [app_tables.generator_efficiency.list_columns()[i]['name'] for i in range(1, 4)] #efficiency columns 45, 35 and 50 in table 2
+        self.column_generator_costs = app_tables.generator_cost.list_columns()[1]['name'] #column 'pounds_per_kwh' in table 3
+        self.column_generator_efficiency = [app_tables.generator_efficiency.list_columns()[i]['name'] for i in range(1, 4)] #efficiency columns 45, 35 and 50 in table 2
         # print(column_generator_efficiency)
 
-        generator_efficiency_obj = app_tables.generator_efficiency.get(generator_size=avg_power_selected)
+        self.generator_efficiency_obj = app_tables.generator_efficiency.get(generator_size=self.avg_power_selected)
         # print(f'gen eff{generator_efficiency_obj}')
 
-        for item in generators:
+        for item in self.generators:
             #Object for table row 
-            generator_cost_obj = app_tables.generator_cost.get(generator=item)
-            capital_costs[item] = {'Initial capital cost': generator_cost_obj[column_generator_costs]*avg_power_selected}
+            self.generator_cost_obj = app_tables.generator_cost.get(generator=item)
+            self.capital_costs[item] = {'Initial capital cost': self.generator_cost_obj[self.column_generator_costs]*self.avg_power_selected}
             if item == 'solar':
-                capital_costs[item]['Yearly maintenance costs'] = cost_factor['solar']
+                self.capital_costs[item]['Yearly maintenance costs'] = self.cost_factor['solar']
             else:
-                capital_costs[item]['Yearly maintenance costs'] = total_power_comsumption*cost_factor[item]
+                self.capital_costs[item]['Yearly maintenance costs'] = self.total_power_comsumption*self.cost_factor[item]
                 
             if item not in ['solar', 'wind']: 
                 if item == 'piston':
-                    efficiency = '45'
+                    self.efficiency = '45'
                 elif item == 'MGT':
-                    efficiency = '35'
+                    self.efficiency = '35'
                 elif item == 'HMGT':
-                    efficiency = '50'      
-                fuel_data = app_tables.generator_efficiency.get(generator_size=avg_power_selected)[efficiency]
+                    self.efficiency = '50'      
+                self.fuel_data = app_tables.generator_efficiency.get(generator_size=self.avg_power_selected)[self.efficiency]
                 # print(f'fuel data: {fuel_data}')
-                capital_costs[item]['Yearly fuel costs'] = fuel_data*run_time_selected*days_year_selected*fuel_cost_selected       
-        # print(capital_costs)
+                self.capital_costs[item]['Yearly fuel costs'] = self.fuel_data*self.run_time_selected*self.days_year_selected*self.fuel_cost_selected 
+        t_end = time.time()
+        print(f'Capital costs calculated in {t_end-t_begin} seconds:\n')
+        # print(self.capital_costs)
+
+        #-----------------------------------------------------------------------------------------------------------
+        #Import capital costs to server
+
+        t_begin = time.time()
+
+        anvil.server.call('add_capital_costs',
+                          self.capital_costs['piston']['Initial capital cost'],
+                          self.capital_costs['piston']['Yearly maintenance costs'],
+                          self.capital_costs['piston']['Yearly fuel costs'],
+                          self.capital_costs['MGT']['Initial capital cost'],
+                          self.capital_costs['MGT']['Yearly maintenance costs'],
+                          self.capital_costs['MGT']['Yearly fuel costs'],
+                          self.capital_costs['HMGT']['Initial capital cost'],
+                          self.capital_costs['HMGT']['Yearly maintenance costs'],
+                          self.capital_costs['HMGT']['Yearly fuel costs'],
+                          self.capital_costs['solar']['Initial capital cost'],
+                          self.capital_costs['solar']['Yearly maintenance costs'],
+                          self.capital_costs['wind']['Initial capital cost'],
+                          self.capital_costs['wind']['Yearly maintenance costs']
+                         )
+
+        t_end = time.time()
+        print(f'Done importing capital costs to server in {t_end-t_begin} seconds')
+                                  
         #-----------------------------------------------------------------------------------------------------------
         #Calculate cumulative cost values for each generator for the next 20 years
+
+        t_begin = time.time()
                 
-        years = [i for i in range(0,21)]
-        print(years)
+        self.years = [i for i in range(0,21)]
+        # print(self.years)
         
-        # piston_cumulative_cost = [ capital_costs['piston']['Initial capital cost'] + i*(
-        #                           capital_costs['piston']['Yearly maintenance costs']  +
-        #                           capital_costs['piston']['Yearly fuel costs']) for i in years]
-        # print(piston_cumulative_cost)
+        self.piston_cumulative_cost = [ self.capital_costs['piston']['Initial capital cost'] + i*(
+                                  self.capital_costs['piston']['Yearly maintenance costs']  +
+                                  self.capital_costs['piston']['Yearly fuel costs']) for i in self.years]
+        # print(self.piston_cumulative_cost)
         
-        # mgt_cumulative_cost = [ capital_costs['MGT']['Initial capital cost'] + i * (
-        #                           capital_costs['MGT']['Yearly maintenance costs']  +
-        #                           capital_costs['MGT']['Yearly fuel costs']) for i in years]
+        self.mgt_cumulative_cost = [ self.capital_costs['MGT']['Initial capital cost'] + i * (
+                                  self.capital_costs['MGT']['Yearly maintenance costs']  +
+                                  self.capital_costs['MGT']['Yearly fuel costs']) for i in self.years]
 
-        # hmgt_cumulative_cost = [ capital_costs['HMGT']['Initial capital cost'] + i * (
-        #                           capital_costs['HMGT']['Yearly maintenance costs']  +
-        #                           capital_costs['HMGT']['Yearly fuel costs']) for i in years]
+        self.hmgt_cumulative_cost = [ self.capital_costs['HMGT']['Initial capital cost'] + i * (
+                                  self.capital_costs['HMGT']['Yearly maintenance costs']  +
+                                  self.capital_costs['HMGT']['Yearly fuel costs']) for i in self.years]
 
-        # solar_cumulative_cost = [ capital_costs['solar']['Initial capital cost'] + i * (
-        #                           capital_costs['solar']['Yearly maintenance costs'] ) for i in years]
+        self.solar_cumulative_cost = [ self.capital_costs['solar']['Initial capital cost'] + i * (
+                                  self.capital_costs['solar']['Yearly maintenance costs'] ) for i in self.years]
 
-        # wind_cumulative_cost = [ capital_costs['wind']['Initial capital cost'] + i * (
-        #                           capital_costs['wind']['Yearly maintenance costs'] ) for i in years]
+        self.wind_cumulative_cost = [ self.capital_costs['wind']['Initial capital cost'] + i * (
+                                  self.capital_costs['wind']['Yearly maintenance costs'] ) for i in self.years]
 
-        # grid_elect_cumulative_cost = [ (1 + year) * (total_power_comsumption * elect_grid_cost_selected *
-        #                               (1 + year * (energy_inflation_selected/100))) for year in years]
-        # print(grid_elect_cumulative_cost)
+        self.grid_elect_cumulative_cost = [ (1 + year) * (self.total_power_comsumption * self.elect_grid_cost_selected *
+                                      (1 + year * (self.energy_inflation_selected/100))) for year in self.years]
+        # print(self.grid_elect_cumulative_cost)
 
+        t_end = time.time()
+        print(f'Calcaulated cumulative costs in {t_end-t_begin} seconds')
+
+        #-----------------------------------------------------------------------------------------------------------
+        #Upload cumulative costs to server
+
+        t_begin = time.time()
+        created_time = datetime.now()
+
+        for i in range(0,21):
+             anvil.server.call('add_cumulative_costs',
+                               self.years[i],
+                               self.piston_cumulative_cost[i],
+                               self.mgt_cumulative_cost[i],
+                               self.hmgt_cumulative_cost[i],
+                               self.solar_cumulative_cost[i],
+                               self.wind_cumulative_cost[i],
+                               self.grid_elect_cumulative_cost[i],
+                               created_time
+                              )
+
+        t_end = time.time()
+        print(f'Done importing cumulative costs to server in {t_end-t_begin} seconds')
+                               
+                               
+                               
+                               
+                               
+            
+
+        
+
+
+
+        #-----------------------------------------------------------------------------------------------------------        
         # cumulative_costs = [ piston_cumulative_cost, mgt_cumulative_cost, hmgt_cumulative_cost, solar_cumulative_cost, wind_cumulative_cost, grid_elect_cumulative_cost]
 
         # scatter_1 = go.Scatter(x = years,
@@ -166,6 +279,10 @@ class Form1(Form1Template):
         #                   line=dict(color='#2196f3'))
         # self.plot_1.data = scatter_1
         # app_tables.comulative_costs.add_row(piston=piston_cumulative_cost[0])
+
+        t_end_total = time.time()
+
+        print(f'Total run time {t_end_total-t_begin_total} seconds')
         
 
         
