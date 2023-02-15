@@ -126,12 +126,12 @@ class Form1(Form1Template):
                 fuel_data = app_tables.generator_efficiency.get(generator_size=avg_power_selected)[efficiency]
                 # print(f'fuel data: {fuel_data}')
                 capital_costs[item]['Yearly fuel costs'] = fuel_data*run_time_selected*days_year_selected*fuel_cost_selected       
-        print(capital_costs)
+        # print(capital_costs)
         #-----------------------------------------------------------------------------------------------------------
         #Calculate cumulative cost values for each generator for the next 20 years
                 
-        # years = [i for i in range(0,21)]
-        # print(years)
+        years = [i for i in range(0,21)]
+        print(years)
         
         # piston_cumulative_cost = [ capital_costs['piston']['Initial capital cost'] + i*(
         #                           capital_costs['piston']['Yearly maintenance costs']  +
