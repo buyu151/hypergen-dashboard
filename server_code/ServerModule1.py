@@ -2,6 +2,7 @@ import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
 import anvil.server
+import pandas as pd
 
 # This is a server module. It runs on the Anvil server,
 # rather than in the user's browser.
@@ -23,3 +24,12 @@ def str_to_num(val):
         else:
             num_val = float(val)
         return num_val
+
+@anvil.server.callable
+def create_df(l1, l2):
+    df = df = pd.DataFrame(l1,l2)
+    print(df.head())
+    # return df
+    
+    
+
