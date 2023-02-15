@@ -79,6 +79,8 @@ class Form1(Form1Template):
         #-----------------------------------------------------------------------------------------------------------
         #Selected values copnverted to numbers:
 
+        self.session_time = datetime.now()
+
         t_begin_total = time.time()
 
         t_begin = time.time()
@@ -118,7 +120,8 @@ class Form1(Form1Template):
                           self.wind_speed_selected,
                           self.fuel_cost_selected,
                           self.elect_grid_cost_selected,
-                          self.energy_inflation_selected
+                          self.energy_inflation_selected,
+                          self.session_time
                          )
 
         t_end = time.time()
@@ -136,7 +139,7 @@ class Form1(Form1Template):
 
         
         t_begin = time.time()
-        anvil.server.call('add_total_power', self.total_power_comsumption)
+        anvil.server.call('add_total_power', self.total_power_comsumption, self.session_time)
         t_end = time.time()
         print(f'Done importing total power comsumption to server in {t_end-t_begin} seconds')
         
@@ -197,7 +200,8 @@ class Form1(Form1Template):
                           self.capital_costs['solar']['Initial capital cost'],
                           self.capital_costs['solar']['Yearly maintenance costs'],
                           self.capital_costs['wind']['Initial capital cost'],
-                          self.capital_costs['wind']['Yearly maintenance costs']
+                          self.capital_costs['wind']['Yearly maintenance costs'],
+                          self.session_time
                          )
 
         t_end = time.time()
@@ -208,7 +212,7 @@ class Form1(Form1Template):
 
         t_begin = time.time()
                 
-        self.years = [i for i in range(0,21)]
+        self.years = [i for i in range(0,11)]
         # print(self.years)
         
         self.piston_cumulative_cost = [ self.capital_costs['piston']['Initial capital cost'] + i*(
@@ -241,9 +245,9 @@ class Form1(Form1Template):
         #Upload cumulative costs to server
 
         t_begin = time.time()
-        created_time = datetime.now()
+        # created_time = datetime.now()
 
-        for i in range(0,21):
+        for i in range(0,len(self.years)):
              anvil.server.call('add_cumulative_costs',
                                self.years[i],
                                self.piston_cumulative_cost[i],
@@ -252,12 +256,17 @@ class Form1(Form1Template):
                                self.solar_cumulative_cost[i],
                                self.wind_cumulative_cost[i],
                                self.grid_elect_cumulative_cost[i],
-                               created_time
+                               self.session_time
                               )
 
         t_end = time.time()
         print(f'Done importing cumulative costs to server in {t_end-t_begin} seconds')
-                               
+        #-----------------------------------------------------------------------------------------------------------
+        #Create data frame with uploaded cumulative costs
+        anvil.server.call('cumulative_cost_df')
+        print('df done')
+
+        
                                
                                
                                
