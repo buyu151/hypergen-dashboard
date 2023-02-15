@@ -7,6 +7,7 @@ import anvil.server
 import plotly.graph_objects as go
 
 
+
 class Form1(Form1Template):
     def __init__(self, **properties):
         # Set Form properties and Data Bindings.
@@ -125,35 +126,47 @@ class Form1(Form1Template):
                 fuel_data = app_tables.generator_efficiency.get(generator_size=avg_power_selected)[efficiency]
                 # print(f'fuel data: {fuel_data}')
                 capital_costs[item]['Yearly fuel costs'] = fuel_data*run_time_selected*days_year_selected*fuel_cost_selected       
-        # print(capital_costs)
+        print(capital_costs)
         #-----------------------------------------------------------------------------------------------------------
         #Calculate cumulative cost values for each generator for the next 20 years
                 
-        years = [i for i in range(0,21)]
+        # years = [i for i in range(0,21)]
         # print(years)
         
-        piston_cumulative_cost = [ capital_costs['piston']['Initial capital cost'] + i*(
-                                  capital_costs['piston']['Yearly maintenance costs']  +
-                                  capital_costs['piston']['Yearly fuel costs']) for i in years]
+        # piston_cumulative_cost = [ capital_costs['piston']['Initial capital cost'] + i*(
+        #                           capital_costs['piston']['Yearly maintenance costs']  +
+        #                           capital_costs['piston']['Yearly fuel costs']) for i in years]
         # print(piston_cumulative_cost)
         
-        mgt_cumulative_cost = [ capital_costs['MGT']['Initial capital cost'] + i * (
-                                  capital_costs['MGT']['Yearly maintenance costs']  +
-                                  capital_costs['MGT']['Yearly fuel costs']) for i in years]
+        # mgt_cumulative_cost = [ capital_costs['MGT']['Initial capital cost'] + i * (
+        #                           capital_costs['MGT']['Yearly maintenance costs']  +
+        #                           capital_costs['MGT']['Yearly fuel costs']) for i in years]
 
-        hmgt_cumulative_cost = [ capital_costs['HMGT']['Initial capital cost'] + i * (
-                                  capital_costs['HMGT']['Yearly maintenance costs']  +
-                                  capital_costs['HMGT']['Yearly fuel costs']) for i in years]
+        # hmgt_cumulative_cost = [ capital_costs['HMGT']['Initial capital cost'] + i * (
+        #                           capital_costs['HMGT']['Yearly maintenance costs']  +
+        #                           capital_costs['HMGT']['Yearly fuel costs']) for i in years]
 
-        solar_cumulative_cost = [ capital_costs['solar']['Initial capital cost'] + i * (
-                                  capital_costs['solar']['Yearly maintenance costs'] ) for i in years]
+        # solar_cumulative_cost = [ capital_costs['solar']['Initial capital cost'] + i * (
+        #                           capital_costs['solar']['Yearly maintenance costs'] ) for i in years]
 
-        solar_cumulative_cost = [ capital_costs['wind']['Initial capital cost'] + i * (
-                                  capital_costs['wind']['Yearly maintenance costs'] ) for i in years]
+        # wind_cumulative_cost = [ capital_costs['wind']['Initial capital cost'] + i * (
+        #                           capital_costs['wind']['Yearly maintenance costs'] ) for i in years]
 
-        grid_elect_cumulative_cost = [ (1 + year) * (total_power_comsumption * elect_grid_cost_selected *
-                                      (1 + year * (energy_inflation_selected/100))) for year in years]
+        # grid_elect_cumulative_cost = [ (1 + year) * (total_power_comsumption * elect_grid_cost_selected *
+        #                               (1 + year * (energy_inflation_selected/100))) for year in years]
         # print(grid_elect_cumulative_cost)
+
+        # cumulative_costs = [ piston_cumulative_cost, mgt_cumulative_cost, hmgt_cumulative_cost, solar_cumulative_cost, wind_cumulative_cost, grid_elect_cumulative_cost]
+
+        # scatter_1 = go.Scatter(x = years,
+        #                   y = piston_cumulative_cost,
+        #                   line=dict(color='#2196f3'))
+        # scatter_2 = go.Scatter(x = years,
+        #                   y = mgt_cumulative_cost,
+        #                   line=dict(color='#2196f3'))
+        # self.plot_1.data = scatter_1
+        # app_tables.comulative_costs.add_row(piston=piston_cumulative_cost[0])
+        
 
         
 

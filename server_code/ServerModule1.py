@@ -3,6 +3,7 @@ import anvil.tables.query as q
 from anvil.tables import app_tables
 import anvil.server
 import pandas as pd
+from Form1 import Form1
 
 # This is a server module. It runs on the Anvil server,
 # rather than in the user's browser.
@@ -29,7 +30,7 @@ def str_to_num(val):
 def create_df(l1, l2):
     df = df = pd.DataFrame(l1,l2)
     print(df.head())
-    # return df
+    return df
     
-    
+
 

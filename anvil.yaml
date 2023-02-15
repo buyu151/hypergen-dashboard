@@ -42,4 +42,30 @@ db_schema:
       admin_ui: {order: 3, width: 200}
       type: number
     title: Table 2
+  comulative_costs:
+    client: none
+    server: full
+    columns:
+    - name: year
+      admin_ui: {order: 0, width: 200}
+      type: number
+    - name: piston
+      admin_ui: {order: 1, width: 200}
+      type: number
+    - name: mgt
+      admin_ui: {order: 2, width: 200}
+      type: number
+    - name: hmgt
+      admin_ui: {order: 3, width: 200}
+      type: number
+    - name: solar
+      admin_ui: {order: 4, width: 200}
+      type: number
+    - name: wind
+      admin_ui: {order: 5, width: 200}
+      type: number
+    - name: grid
+      admin_ui: {order: 6, width: 200}
+      type: number
+    title: Table 3
 renamed: true
