@@ -4,7 +4,7 @@ from anvil.tables import app_tables
 import anvil.server
 import pandas as pd
 from datetime import datetime
-
+import uuid
 
 # This is a server module. It runs on the Anvil server,
 # rather than in the user's browser.
@@ -97,6 +97,17 @@ def add_cumulative_costs(year, piston, mgt, hmgt, solar, wind, grid, session_tim
                                         grid=grid,
                                         created=session_time
                                        )
+
+
+    
+#Get user id for session 
+#https://anvil.works/forum/t/how-do-you-define-a-session/606
+@anvil.server.callable
+def get_uuid():
+  if "id" not in anvil.server.session:
+    anvil.server.session['id']=str(uuid.uuid4())
+
+  return anvil.server.session['id']
 
 #Create an iterable object with the cumulative cost table
 @anvil.server.callable
