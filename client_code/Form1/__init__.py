@@ -269,8 +269,12 @@ class Form1(Form1Template):
         print(f'Done importing cumulative costs to server in {t_end-t_begin} seconds')
         #-----------------------------------------------------------------------------------------------------------
         #Create data frame with uploaded cumulative costs
-        anvil.server.call('cumulative_cost_df')
-        print('df done')
+        # anvil.server.call('cumulative_cost_df')
+        # print('df done')
+
+        #Delete cumulative costs table from server
+        anvil.server.call('delete_cumulative_costs')
+        print('Cumulative costs table deleted from server')
 
         
                                

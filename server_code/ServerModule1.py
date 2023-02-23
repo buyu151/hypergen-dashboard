@@ -122,7 +122,15 @@ def cumulative_cost_df():
 #current_time = ?????
 #use current_user and current_time to filter pandas df and calculate plots
 #maybe use just a dictionary for pandas???
-#delete cumulative cost table after each session
-    
+
+#------------------------------------------------------------------------------------------------------------------
+#delete cumulative cost table after each session https://anvil.works/docs/api/anvil.tables
+@anvil.server.callable
+def delete_cumulative_costs():
+    app_tables.cumulative_costs.delete_all_rows()
+
+
+
+
     
     
