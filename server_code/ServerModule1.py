@@ -117,5 +117,12 @@ def cumulative_cost_df():
          for r in cumulative_costs]
     df = pd.DataFrame.from_dict(dicts)
     return df
+
+#curretn_user = ?????
+#current_time = ?????
+#use current_user and current_time to filter pandas df and calculate plots
+#maybe use just a dictionary for pandas???
+#delete cumulative cost table after each session
+    
     
     

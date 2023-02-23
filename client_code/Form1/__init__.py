@@ -76,6 +76,12 @@ class Form1(Form1Template):
     def run_button_click(self, **event_args):      
         
         """This method is called when the button is clicked"""
+
+        #-----------------------------------------------------------------------------------------------------------
+        #Get user id
+        user_id = anvil.server.call('get_uuid')
+        print(f'User id is {user_id}')
+        
         #-----------------------------------------------------------------------------------------------------------
         #Selected values copnverted to numbers:
 
