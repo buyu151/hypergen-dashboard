@@ -34,7 +34,7 @@ def str_to_num(val):
 #convert lists to pandas dataframe
 @anvil.server.callable
 def create_df(l1, l2):
-    df = df = pd.DataFrame(l1,l2)
+    df = pd.DataFrame(l1,l2)
     print(df.head())
     return df
     
@@ -70,7 +70,7 @@ def add_total_power(total_power, session_time, run_press):
                                    
 #Import capital costs to server
 @anvil.server.callable
-def add_capital_costs(piston_capital, piston_fuel, piston_maintenance, mgt_capital, mgt_fuel, mgt_maintenance, hmgt_capital, hmgt_fuel, hmgt_maintenance, solar_capital, solar_maintenance, wind_capital, wind_maintenance, session_time ):
+def add_capital_costs(piston_capital, piston_fuel, piston_maintenance, mgt_capital, mgt_fuel, mgt_maintenance, hmgt_capital, hmgt_fuel, hmgt_maintenance, solar_capital, solar_maintenance, wind_capital, wind_maintenance, session_time, run_press ):
   app_tables.capital_costs_yearly.add_row(
       piston_capital=piston_capital,
       piston_fuel=piston_fuel,
@@ -85,11 +85,12 @@ def add_capital_costs(piston_capital, piston_fuel, piston_maintenance, mgt_capit
       solar_maintenance=solar_maintenance,
       wind_capital=wind_capital,
       wind_maintenance=wind_maintenance,   
-     created=session_time
+     created=session_time,
+     run_press = run_press
   )
 
 @anvil.server.callable
-def add_cumulative_costs(year, piston, mgt, hmgt, solar, wind, grid, session_time):
+def add_cumulative_costs(year, piston, mgt, hmgt, solar, wind, grid, session_time, run_press):
     app_tables.cumulative_costs.add_row(year=year,
                                         piston=piston,
                                         mgt=mgt,
@@ -97,7 +98,8 @@ def add_cumulative_costs(year, piston, mgt, hmgt, solar, wind, grid, session_tim
                                         solar=solar,
                                         wind=wind,
                                         grid=grid,
-                                        created=session_time
+                                        created=session_time,
+                                        run_press = run_press
                                        )
 
 

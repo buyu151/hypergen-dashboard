@@ -150,7 +150,7 @@ class Form1(Form1Template):
 
         
         t_begin = time.time()
-        anvil.server.call('add_total_power', self.total_power_comsumption, self.session_time)
+        anvil.server.call('add_total_power', self.total_power_comsumption, self.session_time, self.run_num)
         t_end = time.time()
         print(f'Done importing total power comsumption to server in {t_end-t_begin} seconds')
         
@@ -212,14 +212,15 @@ class Form1(Form1Template):
                           self.capital_costs['solar']['Yearly maintenance costs'],
                           self.capital_costs['wind']['Initial capital cost'],
                           self.capital_costs['wind']['Yearly maintenance costs'],
-                          self.session_time
+                          self.session_time,
+                          self.run_num
                          )
 
         t_end = time.time()
         print(f'Done importing capital costs to server in {t_end-t_begin} seconds')
                                   
         #-----------------------------------------------------------------------------------------------------------
-        #Calculate cumulative cost values for each generator for the next 20 years
+        #Calculate cumulative cost values for each generator for the next 10 years
 
         t_begin = time.time()
                 
@@ -267,7 +268,8 @@ class Form1(Form1Template):
                                self.solar_cumulative_cost[i],
                                self.wind_cumulative_cost[i],
                                self.grid_elect_cumulative_cost[i],
-                               self.session_time
+                               self.session_time,
+                               self.run_num
                               )
 
         t_end = time.time()
@@ -278,8 +280,8 @@ class Form1(Form1Template):
         # print('df done')
 
         #Delete cumulative costs table from server
-        anvil.server.call('delete_cumulative_costs')
-        print('Cumulative costs table deleted from server')
+        # anvil.server.call('delete_cumulative_costs')
+        # print('Cumulative costs table deleted from server')
 
         
                                
