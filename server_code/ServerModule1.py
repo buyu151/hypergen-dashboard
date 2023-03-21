@@ -40,7 +40,7 @@ def create_df(l1, l2):
     
 #Import user inputs for data analysis
 @anvil.server.callable
-def add_inputs(avg_power_selected, run_time_selected, days_year_selected, solar_irrad_selected, wind_speed_selected, fuel_cost_selected, elect_grid_cost_selected, energy_inflation_selected, session_time ):
+def add_inputs(avg_power_selected, run_time_selected, days_year_selected, solar_irrad_selected, wind_speed_selected, fuel_cost_selected, elect_grid_cost_selected, energy_inflation_selected, session_time, run_press ):
   app_tables.user_inputs.add_row(
     avg_power_selected=avg_power_selected, 
     run_time_selected=run_time_selected, 
@@ -50,7 +50,8 @@ def add_inputs(avg_power_selected, run_time_selected, days_year_selected, solar_
     fuel_cost_selected=fuel_cost_selected,
     elect_grid_cost_selected=elect_grid_cost_selected,
     energy_inflation_selected=energy_inflation_selected,
-    created=session_time
+    created=session_time,
+    run_press = run_press  
   )
 
 #calculate total power requirement and save it to results table
@@ -60,10 +61,11 @@ def clac_total_power(avg_power_selected, run_time_selected, days_year_selected):
     return total_power_comsumption
 
 @anvil.server.callable
-def add_total_power(total_power, session_time):
+def add_total_power(total_power, session_time, run_press):
     app_tables.total_power.add_row(
         power_comsumption=total_power,
-        created=session_time
+        created=session_time,
+        run_press = run_press
     )
                                    
 #Import capital costs to server

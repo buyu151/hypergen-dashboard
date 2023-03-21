@@ -7,6 +7,7 @@ import anvil.server
 import plotly.graph_objects as go
 import time
 from datetime import datetime
+from random import randint
 
 
 
@@ -16,8 +17,6 @@ class Form1(Form1Template):
         self.init_components(**properties)
 
         # Any code you write here will run before the form opens.
-
-        
 
         #-----------------------------------------------------------------------------------------------------------
         #Variables drop down menus:
@@ -76,6 +75,11 @@ class Form1(Form1Template):
     def run_button_click(self, **event_args):      
         
         """This method is called when the button is clicked"""
+        #-----------------------------------------------------------------------------------------------------------
+        #Random number assigned to each play press to keep track of curren calculation
+        
+        self.run_num = randint(0, 1000000)
+        # print(f"run press {self.run_num}")
 
         #-----------------------------------------------------------------------------------------------------------
         #Get user id
@@ -127,7 +131,8 @@ class Form1(Form1Template):
                           self.fuel_cost_selected,
                           self.elect_grid_cost_selected,
                           self.energy_inflation_selected,
-                          self.session_time
+                          self.session_time,
+                          self.run_num
                          )
 
         t_end = time.time()
