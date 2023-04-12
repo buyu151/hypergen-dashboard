@@ -3,8 +3,48 @@ container:
   properties: {col_widths: '{}'}
 components:
 - type: Button
-  properties: {text: button_1}
+  properties: {role: filled-button, align: center, tooltip: '', border: '', enabled: true,
+    foreground: '', visible: true, text: Return Home, font_size: null, font: '', spacing_above: small,
+    icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+    underline: false, icon: 'fa:home'}
   name: button_1
   layout_properties: {grid_position: 'IBVXWD,RDJWDM'}
   event_bindings: {click: button_1_click}
+- type: ColumnPanel
+  properties: {col_widths: '{}'}
+  name: column_panel_1
+  layout_properties: {grid_position: 'MJQVPQ,JWIKXF'}
+  components:
+  - type: Label
+    properties: {}
+    name: label_1
+    layout_properties: {grid_position: 'NBUCIB,UNTBXY BONZEW,RQYOIO'}
+  - type: Plot
+    properties: {}
+    name: plot_1
+    layout_properties: {grid_position: 'NBUCIB,UNTBXY NYQKEG,PBPQBJ'}
+  - type: Label
+    properties: {}
+    name: label_3
+    layout_properties: {grid_position: 'NBUCIB,UNTBXY KZOIBA,RFAGNH'}
+  - type: Plot
+    properties: {}
+    name: plot_4
+    layout_properties: {grid_position: 'NBUCIB,UNTBXY NYMHLU,EPBLHY'}
+  - type: Label
+    properties: {}
+    name: label_2
+    layout_properties: {grid_position: 'NBUCIB,OSJIAF FXUAAJ,YHTEIO'}
+  - type: Plot
+    properties: {}
+    name: plot_2
+    layout_properties: {grid_position: 'NBUCIB,OSJIAF EYBOFO,GXMLNU'}
+  - type: Label
+    properties: {}
+    name: label_4
+    layout_properties: {grid_position: 'NBUCIB,OSJIAF ZNQUJR,TVDZQM'}
+  - type: Plot
+    properties: {}
+    name: plot_3
+    layout_properties: {grid_position: 'NBUCIB,OSJIAF VHGONY,JYCDFD'}
 is_package: true
