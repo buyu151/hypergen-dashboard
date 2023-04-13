@@ -6,6 +6,9 @@ import pandas as pd
 from datetime import datetime
 import uuid
 
+
+# https://anvil.works/forum/t/using-pandas-with-anvil/1699/2
+
 # This is a server module. It runs on the Anvil server,
 # rather than in the user's browser.
 #
