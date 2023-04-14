@@ -24,8 +24,8 @@ class Form1(Form1Template):
         t_begin = time.time()
         
         self.avg_power = ['20', '30', '40', '60', '75', '100', '125', '135', '150', '175', '200']
-        self.dd_avg_power.items = self.avg_power
-        self.dd_avg_power.selected_value = '30' #Default value
+        self.dd_avg_power.items = self.avg_power #dd for drop down menue
+        self.dd_avg_power.selected_value = '30' #Default value in drop down menue
         # print(f'Average power\n{self.avg_power}\n')
         
         self.run_time = [ str(item) for item in range(1, 24+1) ]
