@@ -4,6 +4,7 @@ from anvil.tables import app_tables
 import anvil.server
 import pandas as pd
 from datetime import datetime
+import plotly.graph_objects as go
 import uuid
 
 # ---------------------------------------------------------------------------------------------------
@@ -122,24 +123,37 @@ def get_uuid():
   return anvil.server.session['id']
 
 #Create an iterable object with the cumulative cost table
-@anvil.server.callable
+# @anvil.server.callable
 def cumulative_cost_df():
     cumulative_costs = app_tables.cumulative_costs.search()
     dicts = [{'year': r['year'], 'piston': r['piston'], 'mgt': r['mgt'], 'hmgt': r['hmgt'], 'solar': r['solar'], 'wind': r['wind'], 'grid': r['grid'],}
          for r in cumulative_costs]
     df = pd.DataFrame.from_dict(dicts)
     return df
+    
+@anvil.server.callable
+def explore():
+  cc_df = cumulative_cost_df()
+  print(cc_df.head())
 
-#curretn_user = ?????
-#current_time = ?????
-#use current_user and current_time to filter pandas df and calculate plots
-#maybe use just a dictionary for pandas???
+@anvil.server.callable
+def create_plots():
+    cc_df = cumulative_cost_df()
+    fig1 = go.Figure(
+        go.Scatter(
+         x=cc_df['year'], 
+         y=cc_df
+        ))
+    return fig1
+
+
 
 #------------------------------------------------------------------------------------------------------------------
 #delete cumulative cost table after each session https://anvil.works/docs/api/anvil.tables
 @anvil.server.callable
 def delete_cumulative_costs():
     app_tables.cumulative_costs.delete_all_rows()
+
 
 
 

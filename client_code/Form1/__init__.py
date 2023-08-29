@@ -283,16 +283,6 @@ class Form1(Form1Template):
         # anvil.server.call('delete_cumulative_costs')
         # print('Cumulative costs table deleted from server')
 
-        
-                               
-                               
-                               
-                               
-            
-
-        
-
-
 
         #-----------------------------------------------------------------------------------------------------------        
         # cumulative_costs = [ piston_cumulative_cost, mgt_cumulative_cost, hmgt_cumulative_cost, solar_cumulative_cost, wind_cumulative_cost, grid_elect_cumulative_cost]
@@ -309,6 +299,8 @@ class Form1(Form1Template):
         t_end_total = time.time()
 
         print(f'Total run time {t_end_total-t_begin_total} seconds')
+        # anvil.server.call('explore')
+        open_form('Form2')
         
 
         

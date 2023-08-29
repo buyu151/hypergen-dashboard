@@ -10,7 +10,7 @@ runtime_options:
   version: 2
   client_version: '3'
   server_version: python3-sandbox
-  server_spec: {base: python310-standard}
+  server_spec: {base: python310-datascience}
   server_spec_disabled: {requirements: '', base: python310-standard}
 metadata: {logo_img: 'asset:HyperGen-Logo-Icon-POS.png'}
 startup_form: Form1
