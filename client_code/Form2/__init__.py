@@ -21,6 +21,7 @@ class Form2(Form2Template):
     def button_1_click(self, **event_args):
         """This method is called when the button is clicked"""
         # pass
+        anvil.server.call('delete_cumulative_costs')
         open_form('Form1')
         
 

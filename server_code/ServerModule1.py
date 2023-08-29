@@ -5,6 +5,7 @@ import anvil.server
 import pandas as pd
 from datetime import datetime
 import plotly.graph_objects as go
+import plotly.express as px
 import uuid
 
 # ---------------------------------------------------------------------------------------------------
@@ -122,7 +123,7 @@ def get_uuid():
 
   return anvil.server.session['id']
 
-#Create an iterable object with the cumulative cost table
+#Create an iterable object with the cumulative cost table ----------------------------------------------------
 # @anvil.server.callable
 def cumulative_cost_df():
     cumulative_costs = app_tables.cumulative_costs.search()
@@ -134,17 +135,24 @@ def cumulative_cost_df():
 @anvil.server.callable
 def explore():
   cc_df = cumulative_cost_df()
-  print(cc_df.head())
+  # print(cc_df.head())
+  # print(cc_df.tail())
+  print(cc_df)
+
+# Making plots----------------------------------------------------------------------------------------------
+
+# https://plotly.com/python/subplots/
+# https://plotly.com/python/line-and-scatter/
+# https://stackoverflow.com/questions/67381580/how-to-add-two-line-in-the-same-canvas-in-plotly
+# https://plotly.com/python/line-charts/
 
 @anvil.server.callable
 def create_plots():
     cc_df = cumulative_cost_df()
-    fig1 = go.Figure(
-        go.Scatter(
-         x=cc_df['year'], 
-         y=cc_df
-        ))
-    return fig1
+    fig = px.line(cc_df, x= 'year', y= ['piston', 'mgt', 'hmgt', 'solar', 'wind', 'grid'], text="year", title='Cumulative cost')
+    fig.update_traces(textposition="bottom right")
+   
+    return fig
 
 
 
