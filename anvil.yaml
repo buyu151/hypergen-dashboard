@@ -110,6 +110,9 @@ db_schema:
     - name: run_press
       admin_ui: {width: 200}
       type: number
+    - name: user_id
+      type: string
+      admin_ui: {width: 200, order: 10}
   total_power:
     title: Table 5
     client: none
@@ -124,6 +127,9 @@ db_schema:
     - name: run_press
       admin_ui: {width: 200}
       type: number
+    - name: user_id
+      type: string
+      admin_ui: {width: 200, order: 3}
   capital_costs_yearly:
     title: Table 6
     client: none
@@ -174,4 +180,7 @@ db_schema:
     - name: run_press
       admin_ui: {width: 200}
       type: number
+    - name: user_id
+      type: string
+      admin_ui: {width: 200, order: 15}
 renamed: true

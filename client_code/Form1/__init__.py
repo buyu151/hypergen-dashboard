@@ -76,6 +76,10 @@ class Form1(Form1Template):
         
         """This method is called when the button is clicked"""
         #-----------------------------------------------------------------------------------------------------------
+        #Delete previous run
+        anvil.server.call('delete_cumulative_costs')
+        
+        #-----------------------------------------------------------------------------------------------------------
         #Random number assigned to each play press to keep track of curren calculation
         
         self.run_num = randint(0, 1000000)
@@ -83,8 +87,8 @@ class Form1(Form1Template):
 
         #-----------------------------------------------------------------------------------------------------------
         #Get user id
-        user_id = anvil.server.call('get_uuid')
-        print(f'User id is {user_id}')
+        self.user_id = anvil.server.call('get_uuid')
+        print(f'User id is {self.user_id}')
         
         #-----------------------------------------------------------------------------------------------------------
         #Selected values copnverted to numbers:
@@ -95,16 +99,7 @@ class Form1(Form1Template):
 
         t_begin = time.time()
 
-        #This way is too slow:
-        # self.avg_power_selected = anvil.server.call('str_to_num', self.dd_avg_power.selected_value)
-        # self.run_time_selected = anvil.server.call('str_to_num',self.dd_run_time.selected_value)
-        # self.days_year_selected = anvil.server.call('str_to_num',self.dd_days_year.selected_value)
-        # self.solar_irrad_selected = anvil.server.call('str_to_num',self.dd_solar_irrad.selected_value)
-        # self.wind_speed_selected = anvil.server.call('str_to_num',self.dd_wind_speed.selected_value)
-        # self.fuel_cost_selected = anvil.server.call('str_to_num',self.dd_fuel_cost.selected_value)
-        # self.elect_grid_cost_selected = anvil.server.call('str_to_num',self.dd_elect_grid_cost.selected_value)
-        # self.energy_inflation_selected = anvil.server.call('str_to_num',self.dd_energy_inflation.selected_value)
-        
+            
         self.avg_power_selected = float(self.dd_avg_power.selected_value)
         self.run_time_selected = float(self.dd_run_time.selected_value)
         self.days_year_selected = float(self.dd_days_year.selected_value)
@@ -132,7 +127,8 @@ class Form1(Form1Template):
                           self.elect_grid_cost_selected,
                           self.energy_inflation_selected,
                           self.session_time,
-                          self.run_num
+                          self.run_num,
+                          self.user_id
                          )
 
         t_end = time.time()
@@ -150,7 +146,7 @@ class Form1(Form1Template):
 
         
         t_begin = time.time()
-        anvil.server.call('add_total_power', self.total_power_comsumption, self.session_time, self.run_num)
+        anvil.server.call('add_total_power', self.total_power_comsumption, self.session_time, self.run_num, self.user_id)
         t_end = time.time()
         print(f'Done importing total power comsumption to server in {t_end-t_begin} seconds')
         
@@ -213,7 +209,8 @@ class Form1(Form1Template):
                           self.capital_costs['wind']['Initial capital cost'],
                           self.capital_costs['wind']['Yearly maintenance costs'],
                           self.session_time,
-                          self.run_num
+                          self.run_num,
+                          self.user_id
                          )
 
         t_end = time.time()
