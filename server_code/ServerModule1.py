@@ -168,7 +168,10 @@ def delete_cumulative_costs():
 
 #-----------------------------------------------------------------------------------------------------------
 #OUTPUTS
+#See https://anvil.works/docs/data-tables/data-tables-in-code
+#https://anvil.works/docs/data-tables/quickstart
 
 #Convert table 4 to a pandas df using just the row that has the current user id and run number. use it to calculate the  
 #total power comsumption. Then add it to table 5, convert to pandas df (or not) and calculate the capital costs.
 # Then use that to calculate the cumulative power consumption
+
