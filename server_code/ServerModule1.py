@@ -175,3 +175,17 @@ def delete_cumulative_costs():
 #total power comsumption. Then add it to table 5, convert to pandas df (or not) and calculate the capital costs.
 # Then use that to calculate the cumulative power consumption
 
+
+inputs= {}
+
+@anvil.server.callable
+def get_inputs(avg_pwr, run_time, days_op_per_year, avg_solar_irr, avg_wind_speed, cost_electric, energy_inflation, cost_fuel):
+    inputs["avg_pwr"] = avg_pwr
+    inputs["run_time"] = run_time
+    inputs["days_op_per_year"] = days_op_per_year
+    inputs["avg_solar_irr"] = avg_solar_irr
+    inputs["avg_wind_speed"] = avg_wind_speed
+    inputs["cost_electric"] = cost_electric
+    inputs["energy_inflation"] = energy_inflation
+    inputs["cost_fuel"] = cost_fuel
+    print(inputs)
