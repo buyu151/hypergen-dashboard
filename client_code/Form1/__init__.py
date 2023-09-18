@@ -175,7 +175,7 @@ class Form1(Form1Template):
         # print(column_generator_efficiency)
 
         self.generator_efficiency_obj = app_tables.generator_efficiency.get(generator_size=self.avg_power_selected)
-        # print(f'gen eff{generator_efficiency_obj}')
+        print(f'gen eff!!!!!!!!!!!!!!!!!!!!!!!!!{self.generator_efficiency_obj}')
 
         for item in self.generators:
             #Object for table row 

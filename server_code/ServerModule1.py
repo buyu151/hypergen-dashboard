@@ -198,40 +198,40 @@ def reset_inputs():
     print(inputs)
 
 
-outputs = {}
+# outputs = {}
 
-outputs["total_power_comsumption"] = inputs["avg_pwr"] *inputs["run_time"]*inputs["days_op_per_year"]
+# outputs["total_power_comsumption"] = inputs["avg_pwr"] *inputs["run_time"]*inputs["days_op_per_year"]
 
 
-capital_costs = {}
-generators = ['piston', 'MGT', 'HMGT', 'solar', 'wind']
-cost_factor = {'piston': 0.15, 'MGT': 0.0045, 'HMGT': 0.0045, 'solar':3000, 'wind': 0.0082}
+# capital_costs = {}
+# generators = ['piston', 'MGT', 'HMGT', 'solar', 'wind']
+# cost_factor = {'piston': 0.15, 'MGT': 0.0045, 'HMGT': 0.0045, 'solar':3000, 'wind': 0.0082}
 
-#Get column names from app tables
-column_generator_costs = app_tables.generator_cost.list_columns()[1]['name'] #column 'pounds_per_kwh' in table 3
-column_generator_efficiency = [app_tables.generator_efficiency.list_columns()[i]['name'] for i in range(1, 4)] #efficiency columns 45, 35 and 50 in table 2
-# print(column_generator_efficiency)
+# #Get column names from app tables
+# column_generator_costs = app_tables.generator_cost.list_columns()[1]['name'] #column 'pounds_per_kwh' in table 3
+# column_generator_efficiency = [app_tables.generator_efficiency.list_columns()[i]['name'] for i in range(1, 4)] #efficiency columns 45, 35 and 50 in table 2
+# # print(column_generator_efficiency)
 
-generator_efficiency_obj = app_tables.generator_efficiency.get(generator_size=inputs["avg_pwr"])
-# print(f'gen eff{generator_efficiency_obj}')
+# generator_efficiency_obj = app_tables.generator_efficiency.get(generator_size=inputs["avg_pwr"])
+# # print(f'gen eff{generator_efficiency_obj}')
 
-for item in generators:
-    #Object for table row 
-    generator_cost_obj = app_tables.generator_cost.get(generator=item)
-    capital_costs[item] = {'Initial capital cost': generator_cost_obj[column_generator_costs]*inputs["avg_pwr"]}
-    if item == 'solar':
-        capital_costs[item]['Yearly maintenance costs'] = cost_factor['solar']
-    else:
-        capital_costs[item]['Yearly maintenance costs'] = total_power_comsumption*cost_factor[item]
+# for item in generators:
+#     #Object for table row 
+#     generator_cost_obj = app_tables.generator_cost.get(generator=item)
+#     capital_costs[item] = {'Initial capital cost': generator_cost_obj[column_generator_costs]*inputs["avg_pwr"]}
+#     if item == 'solar':
+#         capital_costs[item]['Yearly maintenance costs'] = cost_factor['solar']
+#     else:
+#         capital_costs[item]['Yearly maintenance costs'] = total_power_comsumption*cost_factor[item]
     
-    if item not in ['solar', 'wind']: 
-        if item == 'piston':
-            efficiency = '45'
-        elif item == 'MGT':
-            efficiency = '35'
-        elif item == 'HMGT':
-            efficiency = '50'      
-        fuel_data = app_tables.generator_efficiency.get(generator_size=inputs["avg_pwr"])[efficiency]
-        # print(f'fuel data: {fuel_data}')
-        capital_costs[item]['Yearly fuel costs'] = fuel_data*inputs["run_time"]*inputs["days_op_per_year"]*inputs["cost_fuel"] 
+#     if item not in ['solar', 'wind']: 
+#         if item == 'piston':
+#             efficiency = '45'
+#         elif item == 'MGT':
+#             efficiency = '35'
+#         elif item == 'HMGT':
+#             efficiency = '50'      
+#         fuel_data = app_tables.generator_efficiency.get(generator_size=inputs["avg_pwr"])[efficiency]
+#         # print(f'fuel data: {fuel_data}')
+#         capital_costs[item]['Yearly fuel costs'] = fuel_data*inputs["run_time"]*inputs["days_op_per_year"]*inputs["cost_fuel"] 
 
