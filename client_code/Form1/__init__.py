@@ -132,6 +132,17 @@ class Form1(Form1Template):
                          )
 
         t_end = time.time()
+
+        anvil.server.call('get_inputs',
+                         self.avg_power_selected,
+                          self.run_time_selected,
+                          self.days_year_selected,
+                          self.solar_irrad_selected,
+                          self.wind_speed_selected,
+                          self.fuel_cost_selected,
+                          self.elect_grid_cost_selected,
+                          self.energy_inflation_selected
+                         )
         
         print(f'Done importing imputs to server in {t_end-t_begin} seconds')
         
@@ -297,6 +308,7 @@ class Form1(Form1Template):
 
         print(f'Total run time {t_end_total-t_begin_total} seconds')
         # anvil.server.call('explore')
+        anvil.server.call('reset_inputs')
         open_form('Form2')
         
 
