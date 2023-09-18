@@ -175,7 +175,7 @@ class Form1(Form1Template):
         # print(column_generator_efficiency)
 
         self.generator_efficiency_obj = app_tables.generator_efficiency.get(generator_size=self.avg_power_selected)
-        print(f'gen eff!!!!!!!!!!!!!!!!!!!!!!!!!{self.generator_efficiency_obj}')
+        # print(f'gen eff!!!!!!!!!!!!!!!!!!!!!!!!!{self.generator_efficiency_obj}')
 
         for item in self.generators:
             #Object for table row 
@@ -197,6 +197,7 @@ class Form1(Form1Template):
                 # print(f'fuel data: {fuel_data}')
                 self.capital_costs[item]['Yearly fuel costs'] = self.fuel_data*self.run_time_selected*self.days_year_selected*self.fuel_cost_selected 
         t_end = time.time()
+        print(f"capital costs are {self.capital_costs}")
         print(f'Capital costs calculated in {t_end-t_begin} seconds:\n')
         # print(self.capital_costs)
 
